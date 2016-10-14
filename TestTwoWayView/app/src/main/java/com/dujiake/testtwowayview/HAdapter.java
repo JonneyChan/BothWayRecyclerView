@@ -2,11 +2,14 @@ package com.dujiake.testtwowayview;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by Jonney on 2016/9/26.
@@ -28,6 +31,7 @@ public class HAdapter extends RecyclerView.Adapter<HAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.textView.setText("row"+position);
+        holder.postion=position;
     }
 
     @Override
@@ -70,7 +74,7 @@ public class HAdapter extends RecyclerView.Adapter<HAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         TextView textView;
-
+        int postion;
         public ViewHolder(View itemView) {
             super(itemView);
             textView=(TextView) itemView.findViewById(R.id.h_item_id);

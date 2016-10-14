@@ -53,7 +53,7 @@ public class VAdapter extends RecyclerView.Adapter<VAdapter.ViewHoder> {
          int postion;
         public ViewHoder(View itemView) {
             super(itemView);
-            listView=(RecyclerView)itemView.findViewById(R.id.h_list);
+            listView=(RecyclerView) itemView.findViewById(R.id.h_list);
             titleTv=(TextView) itemView.findViewById(R.id.v_item_id);
             LinearLayoutManager linearLayoutManager=new LinearLayoutManager(context);
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -62,7 +62,7 @@ public class VAdapter extends RecyclerView.Adapter<VAdapter.ViewHoder> {
             recyclerView.addRecyclerView(listView);
         }
 
-        RecyclerView listView;
+         RecyclerView listView;
         TextView titleTv;
     }
 }

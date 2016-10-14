@@ -12,14 +12,14 @@
     <LinearLayout
         android:background="@android:color/holo_blue_light"
         android:orientation="horizontal" android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="@dimen/item_height">
 
         <TextView
-            android:layout_width="60dp"
+            android:layout_width="@dimen/item_width"
             android:id="@+id/v_item_id"
             android:text=""
             android:gravity="center"
-            android:layout_height="60dp" />
+            android:layout_height="@dimen/item_height" />
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:id="@+id/h_list"
