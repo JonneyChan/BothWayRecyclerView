@@ -53,5 +53,12 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+        listView.setSelectItemListener(new CustomRecyclerView.OnSelectItemListener() {
+            @Override
+            public void onSelect(int x, int y) {
+                //选择的那个单元格。
+
+            }
+        });
     }
 }
