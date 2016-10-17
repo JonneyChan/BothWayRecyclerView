@@ -33,6 +33,9 @@ public class CustomRecyclerView extends RecyclerView implements GestureDetector.
 
     private OnSelectItemListener selectItemListener;
 
+
+    private boolean isSingleTap=false;
+
     public CustomRecyclerView(Context context) {
         super(context);
     }
@@ -48,15 +51,36 @@ public class CustomRecyclerView extends RecyclerView implements GestureDetector.
 
 
     @Override
-    public boolean onTouchEvent(MotionEvent e) {
+    public boolean onTouchEvent(final MotionEvent e) {
         if (touchEventLister!=null){
             touchEventLister.onRecyclerTouch(true);
         }
-        Log.w("onTouch","CustomRecyclerView");
-        boolean isOnTap=gestureDetector.onTouchEvent(e);
-        if (!isOnTap){
+       boolean isClick=gestureDetector.onTouchEvent(e);
+        if (isClick){
+            if (isIntecept){
+                isIntecept=false;
+                postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        e.setAction(MotionEvent.ACTION_DOWN);
+                        dispatchTouchEvent(e);
+                        e.setAction(MotionEvent.ACTION_UP);
+                        dispatchTouchEvent(e);
+                        postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                isIntecept=true;
+                            }
+                        },500);
+                    }
+                },200);
+
+            }
+        }
+        if (!isClick){
             onTouch(e,false);
         }
+
         return super.onTouchEvent(e);
     }
 
@@ -83,16 +107,39 @@ public class CustomRecyclerView extends RecyclerView implements GestureDetector.
             itemRecyclerViews=null;
         }
     }
-
+    boolean isFiling=false;//是否滑动
+    boolean isInitiative=false;//是否主动触发touch事件
+    boolean isIntecept=true;//是否拦截事件
     @Override
     public boolean onInterceptTouchEvent(MotionEvent e) {
-        Log.w("onInterceptTouchEvent","motionEvent x="+e.getX()+",y="+e.getY());
-        return true;//非点击事件拦截
+//        Log.w("onInterceptTouchEvent","CustomRecyclerView motionEvent x="+e.getX()+",y="+e.getY());
+//        boolean isFling=gestureDetector.onTouchEvent(e);
+            return isIntecept;// super.onInterceptTouchEvent(e);
+
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent e) {
-        Log.w("dispatchTouchEvent","motionEvent x="+e.getX()+",y="+e.getY());
+        Log.w("dispatchTouchEvent","CustomRecyclerView motionEvent x="+e.getX()+",y="+e.getY()+",actionId="+e.getAction());
+//        if (!isInitiative)
+//            switch (e.getAction()){
+//                case MotionEvent.ACTION_DOWN:
+//                    isFiling=false;
+//                    break;
+//                case MotionEvent.ACTION_UP:
+//                    if (!isFiling){
+//                        Log.w("333","333");
+//                        isInitiative=true;
+//                        isIntecept=false;
+//                        this.dispatchTouchEvent(e);
+//                    }
+//                    break;
+//                case MotionEvent.ACTION_MOVE:
+//                    isFiling=true;
+//                    break;
+//
+//            }
+
         return super.dispatchTouchEvent(e);
     }
 
@@ -118,19 +165,16 @@ public class CustomRecyclerView extends RecyclerView implements GestureDetector.
     }
 
     @Override
-    public boolean onSingleTapUp(MotionEvent e) {
-        Log.w("onSingleTapUp","motionEvent x="+e.getX()+",y="+e.getY());
-        Log.w("onScrollY","Y="+getScollYDistance());
-        Log.w("onScrollX","X="+getScrollXDistance());
-        int x=(int)((e.getX()-getItemLeft()+getScrollXDistance())/getContext().getResources().getDimension(R.dimen.item_width));
-        int y=(int)((e.getY()+getScollYDistance())/getContext().getResources().getDimension(R.dimen.item_height));
-        Log.w("onSingleTapUp","array["+x+"]["+y+"]");
-        if (selectItemListener!=null)selectItemListener.onSelect(x,y);
+    public boolean onSingleTapUp(final MotionEvent e) {
+        Log.w(this.getClass().getSimpleName(),"onSingleTapUp");
+
+
         return true;
     }
 
     @Override
     public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        Log.w(this.getClass().getSimpleName(),"onScroll");
         return false;
     }
 
@@ -141,6 +185,7 @@ public class CustomRecyclerView extends RecyclerView implements GestureDetector.
 
     @Override
     public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        Log.w(this.getClass().getSimpleName(),"onFling");
         return false;
     }
 

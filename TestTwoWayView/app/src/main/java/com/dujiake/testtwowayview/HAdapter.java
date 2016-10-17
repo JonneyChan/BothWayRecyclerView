@@ -78,6 +78,13 @@ public class HAdapter extends RecyclerView.Adapter<HAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
             textView=(TextView) itemView.findViewById(R.id.h_item_id);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    Log.w("view","click-"+postion);
+                    Toast.makeText(view.getContext(), "显示"+postion, Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }

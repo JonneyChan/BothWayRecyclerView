@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,11 +13,14 @@ import android.widget.ListView;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
 
 
 
     private boolean isRecyclerGroupTouch=false;
+
+
+    GestureDetector gestureDetector=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,5 +64,54 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        gestureDetector=new GestureDetector(this,this);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+//        Log.w("activity","onTouchEvent");
+
+        return super.onTouchEvent(event);
+
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+//        Log.w("activity","dispatchTouchEvent"+TouchUtil.getTouchAction(ev.getAction()));
+//        gestureDetector.onTouchEvent(ev);
+
+        return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onDown(MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent motionEvent) {
+        Log.w("onActivityTap","onActivityTap");
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        Log.w("onActivityTap","onFling");
+        return false;
     }
 }
